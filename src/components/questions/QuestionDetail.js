@@ -7,8 +7,21 @@ class QuestionDetail extends Component {
 
     //saves array of the answers inherited through props, in order to be able to add more choices/inputs to it
     this.state = {
-      inputs: this.props.question.choices
+      inputs: this.props.question
     }
+  }
+
+  handleChange(changed, event) {
+    var newInputs = this.props.question;
+    newInputs[changed] = event.target.value;
+    this.setState({
+      inputs: newInputs
+    });
+  }
+
+  handleSubmit() {
+    //console.log('choices', this.state.inputs.choices);
+    console.log('text', this.props.question.text)
   }
 
   renderQuestion() {
@@ -16,7 +29,7 @@ class QuestionDetail extends Component {
     return (
       <div>
         <h2>Question</h2>
-        <textArea style = { editableTextStyle } value={this.props.question.text} />
+        <textArea style = { editableTextStyle } value={this.props.question.text} onChange={this.handleChange.bind(this, 'text')}/>
       </div>
     )
   }
@@ -24,15 +37,14 @@ class QuestionDetail extends Component {
 
   renderAnswers() {
     const { answerInputStyle, fontAwesomeStyle } = styles;
-    if (this.props.question.choices) {
-      console.log(this.state.inputs)
+    if (this.props.question.type === 'question') {
       return (
         <div>
           <h2>Answers</h2>
-            {this.state.inputs.map(choiceInput => {
+            {this.props.question.choices.map(choiceInput => {
               return (
                 <div>
-                  <input style={answerInputStyle} placeholder="..." value={choiceInput}/>
+                  <input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices')}/>
                 </div>
               )
             })}
@@ -59,7 +71,7 @@ class QuestionDetail extends Component {
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle}>Save</Button>
+        <Button style={saveButtonStyle} onClick={this.handleSubmit.bind(this)}>Save</Button>
       </Col>
     )
   }
