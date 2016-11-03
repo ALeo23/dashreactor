@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Navbar from './Navbar';
-import LessonTitleList from './LessonTitleList';
-import QuestionTitleList from './QuestionTitleList';
-import QuestionDetail from './QuestionDetail';
-import NewQuestion from './NewQuestion';
+import Navbar from '../navbar/Navbar';
+import LessonTitleList from '../lessons/LessonTitleList';
+import QuestionTitleList from '../questions/QuestionTitleList';
+import QuestionDetail from '../questions/QuestionDetail';
+import NewQuestion from '../questions/NewQuestion';
 import { Button, Col, Row } from 'react-bootstrap';
 
 
@@ -24,11 +24,21 @@ class App extends Component {
 
 
   handleLessonClick (lesson) {
-    this.setState({
-      selectedLesson: lesson,
-      selectedLessonQuestions: lesson.lessonContent,
-      selectedLessonTitle: lesson.title
-    });
+    let url = 'http://localhost:3011/api/lessons/' + lesson.lessonId;
+    fetch(url, { method: 'get' })
+      .then(data => {
+        return data.json();
+      })
+      .then(data => {
+        data.lessonContent.forEach(lesson => {
+          lesson.text = lesson.text.substring(0, 25) + '...';
+        });
+        this.setState({
+          selectedLesson: lesson,
+          selectedLessonQuestions: data.lessonContent,
+          selectedLessonTitle: lesson.title
+        });
+      });
   }
 
 

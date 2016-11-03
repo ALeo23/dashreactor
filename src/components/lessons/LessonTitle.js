@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import QuestionTitleList from './QuestionTitleList';
+import QuestionTitleList from '../questions/QuestionTitleList';
 
 
 class LessonTitle extends Component {

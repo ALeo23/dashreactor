@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import LessonDummyData from './LessonDummyData';
-import QuestionTitle from './QuestionTitle';
+import QuestionTitle from '../questions/QuestionTitle';
 import { Col } from 'react-bootstrap';
 
 class QuestionTitleList extends Component {
