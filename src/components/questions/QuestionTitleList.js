@@ -21,6 +21,11 @@ class QuestionTitleList extends Component {
         {
           this.props.lessonContent.map(question => {
             let isSelectedQuestion;
+            if (question.text.length >= 60) {
+              question.abbrev = question.text.substring(0, 57) + '...';
+            } else {
+              question.abbrev = question.text;
+            }
 
             if (this.props.selectedQuestion) {
               isSelectedQuestion = this.props.selectedQuestion.text === question.text
@@ -30,7 +35,7 @@ class QuestionTitleList extends Component {
 
             return (
               <QuestionTitle
-                title={question.text}
+                title={question.abbrev}
                 questionContent={question}
                 isSelectedQuestion={isSelectedQuestion}
                 handleQuestionClick={this.props.handleQuestionClick.bind(this)}
@@ -61,6 +66,7 @@ const styles = {
     zIndex: -1,
     fontSize: 18,
     boxShadow: '2px 0px 5px -1px rgba(0,0,0,0.2)',
+    overflowY: 'auto'
   },
 
   fontAwesomeStyle: {

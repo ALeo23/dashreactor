@@ -14,7 +14,7 @@ class App extends Component {
     this.state = {
       selectedLesson: null,
       selectedLessonQuestions: null,
-      selectedLessonTitle: null,
+      selectedLessonId: null,
       selectedQuestion: null,
 
       //determines whether 'NewQuestion' is visible.
@@ -30,28 +30,20 @@ class App extends Component {
         return data.json();
       })
       .then(data => {
-        data.lessonContent.forEach(lesson => {
-          lesson.text = lesson.text.substring(0, 25) + '...';
-        });
+        console.log(lesson);
         this.setState({
           selectedLesson: lesson,
           selectedLessonQuestions: data.lessonContent,
-          selectedLessonTitle: lesson.title
+          selectedLessonId: lesson.lessonId
         });
       });
   }
 
 
   handleQuestionClick (question) {
-    if (!this.state.selectedQuestion) {
       this.setState({
         selectedQuestion: question
       });
-    } else {
-      this.setState({
-        selectedQuestion: null
-      })
-    }
   }
 
 //enables appearance of question-creation form (NewQuestion.js)
@@ -90,7 +82,7 @@ class App extends Component {
     if (this.state.selectedQuestion) {
       return (
         <QuestionDetail
-          title={this.state.selectedLessonTitle}
+          // title={this.state.selectedLessonTitle}
           question={this.state.selectedQuestion}
         />
       )
@@ -103,7 +95,7 @@ class App extends Component {
       <Row className="App">
         <Navbar />
         <div className="container-fluid">
-        <LessonTitleList selectedLessonTitle={this.state.selectedLessonTitle} handleLessonClick={this.handleLessonClick.bind(this)}/>
+        <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)}/>
         {this.renderQuestionList()}
         {this.renderQuestionDetail()}
         {this.renderNewQuestion()}

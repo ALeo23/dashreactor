@@ -21,7 +21,7 @@ class LessonTitleList extends Component {
       return data.json()
     })
     .then(data => {
-      //console.log('DATA =>', data)
+      console.log('DATA =>', data)
       this.setState( { 'lessons': data } );
     })
   }
@@ -33,8 +33,8 @@ class LessonTitleList extends Component {
       <Col sm={3} style={LessonTitleListStyle}>
         {
           this.state.lessons.map(lesson => {
-            let isSelectedLesson = lesson.title === this.props.selectedLessonTitle
-
+            let isSelectedLesson = lesson._id === this.props.selectedLessonId;
+            console.log('lesson', lesson._id, 'prop', this.props.selectedLessonId);
             return (
               <LessonTitle
                 isSelectedLesson={isSelectedLesson}
@@ -63,6 +63,7 @@ const styles = {
     fontFamily: 'Lato',
     zIndex: 0,
     boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
+    overflowY: 'auto'
   },
 }
 

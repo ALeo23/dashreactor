@@ -16,7 +16,7 @@ class QuestionDetail extends Component {
     return (
       <div>
         <h2>Question</h2>
-        <textArea style = { editableTextStyle } defaultValue={this.props.question.text} />
+        <textArea style = { editableTextStyle } value={this.props.question.text} />
       </div>
     )
   }
@@ -25,13 +25,14 @@ class QuestionDetail extends Component {
   renderAnswers() {
     const { answerInputStyle, fontAwesomeStyle } = styles;
     if (this.props.question.choices) {
+      console.log(this.state.inputs)
       return (
         <div>
           <h2>Answers</h2>
             {this.state.inputs.map(choiceInput => {
               return (
                 <div>
-                  <input style={answerInputStyle} placeholder="..." defaultValue={choiceInput}/>
+                  <input style={answerInputStyle} placeholder="..." value={choiceInput}/>
                 </div>
               )
             })}
@@ -70,7 +71,7 @@ const styles = {
   QuestionDetailStyle: {
     height: '100%',
     fontSize: 20,
-    position: 'fixed',
+    position: 'relative',
     paddingTop: 90,
     width: '100%',
     height: 40,
@@ -99,7 +100,9 @@ const styles = {
     opacity: 1,
     border: 0.2,
     textAlign: 'justified',
-    display: 'inline-block'
+    display: 'inline-block',
+    position: 'relative',
+    width: '100%'
   },
 
   saveButtonStyle: {
