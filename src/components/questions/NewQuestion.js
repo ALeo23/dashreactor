@@ -11,11 +11,9 @@ class newQuestion extends Component {
 
   //adds another text input for answer choices, up to 5 total
   addChoice() {
-    if (this.state.inputs.length < 5) {
-      let choices = this.state.inputs;
-      choices.push("");
-      this.setState({inputs: choices});
-    }
+    let choices = this.state.inputs;
+    choices.push("");
+    this.setState({inputs: choices});
   }
 
   renderQuestion() {

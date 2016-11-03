@@ -42,18 +42,23 @@ class App extends Component {
 
   handleQuestionClick (question) {
       this.setState({
-        selectedQuestion: question
+        selectedQuestion: question,
+        creatingQuestion: null
       });
   }
 
 //enables appearance of question-creation form (NewQuestion.js)
   handleAddQuestionClick (lesson) {
-    this.setState({creatingQuestion: true});
+    this.setState({
+      creatingQuestion: true,
+      selectedQuestion: null
+    });
   }
 
 //at the moment this just clears the NewQuestion form without saving.
   handleSaveNewQuestionClick () {
-    this.setState({creatingQuestion: false});
+    this.setState({
+      creatingQuestion: false});
   }
 
   renderNewQuestion() {
