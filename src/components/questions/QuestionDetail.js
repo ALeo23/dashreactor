@@ -11,16 +11,16 @@ class QuestionDetail extends Component {
     }
   }
 
-  handleChange(changed, event) {
+  handleChange(changed, index, event) {
     var newInputs = this.props.question;
-    newInputs[changed] = event.target.value;
+    newInputs[changed][index] = event.target.value;
     this.setState({
       inputs: newInputs
     });
   }
 
   handleSubmit() {
-    //console.log('choices', this.state.inputs.choices);
+    console.log('choices', this.props.question.choices);
     console.log('text', this.props.question.text)
   }
 
@@ -38,13 +38,14 @@ class QuestionDetail extends Component {
   renderAnswers() {
     const { answerInputStyle, fontAwesomeStyle } = styles;
     if (this.props.question.type === 'question') {
+      console.log(this.props.question.choices)
       return (
         <div>
           <h2>Answers</h2>
-            {this.props.question.choices.map(choiceInput => {
+            {this.props.question.choices.map((choiceInput, index) => {
               return (
                 <div>
-                  <input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices')}/>
+                  <input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices', index)}/>
                 </div>
               )
             })}
@@ -57,11 +58,10 @@ class QuestionDetail extends Component {
 
   //adds another text input for answer choices, up to 5 total
   addChoice() {
-    if (this.state.inputs.length < 5) {
-      let choices = this.state.inputs;
-      choices.push("");
-      this.setState({inputs: choices});
-    }
+    console.log('work')
+    let choices = this.state.inputs.choices;
+    choices.push("");
+    this.setState({inputs: choices});
   }
 
   render() {

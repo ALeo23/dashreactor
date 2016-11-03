@@ -16,7 +16,7 @@ class App extends Component {
       selectedLessonQuestions: null,
       selectedLessonId: null,
       selectedQuestion: null,
-
+      editLesson: false,
       //determines whether 'NewQuestion' is visible.
       creatingQuestion: false,
     }
@@ -89,6 +89,13 @@ class App extends Component {
     }
   }
 
+  // renderEditLesson() {
+  //   if (this.state.editLesson) {
+  //     <EditLesson
+  //       lesson={this.state.lesson}
+  //     />
+  //   }
+  // }
 
   render() {
     return (
