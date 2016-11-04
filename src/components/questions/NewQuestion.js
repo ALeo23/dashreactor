@@ -7,7 +7,8 @@ class newQuestion extends Component {
     this.state = {
       choices: [],
       text: '',
-      type: 'reading'
+      type: 'reading',
+      answer: ''
     }
   }
 
@@ -29,6 +30,12 @@ class newQuestion extends Component {
       [changed]: newInputs[changed]
     });
     //console.log(this.state.text)
+  }
+
+  handleAnswer(event) {
+    this.setState({
+      answer: event.target.name
+    });
   }
 
   renderQuestion() {
@@ -62,9 +69,10 @@ class newQuestion extends Component {
         <div>
           <h2>Answers</h2>
           {this.state.choices.map((choiceInput, index) => {
+            var checked = index == this.state.answer ? 'checked' : ''
               return (
                 <div>
-                  <input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices', index)}/>
+                  <input checked={checked} name={index} onChange={this.handleAnswer.bind(this)} type="checkbox"></input><input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices', index)}/>
                 </div>
               )
           })}
@@ -94,7 +102,7 @@ class newQuestion extends Component {
         {this.renderQuestion()}
         {this.renderType()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this, this.state.text, this.state.choices, this.state.type)}>Save</Button>
+        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this, this.state.text, this.state.choices, this.state.type, this.state.answer)}>Save</Button>
       </Col>
     )
   }

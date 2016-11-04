@@ -63,7 +63,7 @@ deletedLesson() {
   }
 
 //at the moment this just clears the NewQuestion form without saving.
-  handleSaveNewQuestionClick (text, choices, type) {
+  handleSaveNewQuestionClick (text, choices, type, answer) {
     var length = this.state.selectedLessonQuestions.length + 1;
     var id = this.state.selectedLessonId;
     console.log('text', text)
@@ -80,7 +80,8 @@ deletedLesson() {
         "text": text,
         "choices": choices,
         "type": type,
-        "order": length
+        "order": length,
+        "answer": answer
       })
     }).then(response => response.json());
   }
