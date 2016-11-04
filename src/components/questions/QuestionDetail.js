@@ -56,6 +56,17 @@ class QuestionDetail extends Component {
     });
   }
 
+  handleDelete() {
+    let id = this.props.question._id;
+    fetch('http://localhost:3011/api/content/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }).then(response => response.json());
+  }
+
   renderType() {
     const { QuestionDetailStyle, editableTextStyle } = styles;
     return (
@@ -119,7 +130,7 @@ class QuestionDetail extends Component {
         {this.renderType()}
         {this.renderAnswers()}
         <Button style={saveButtonStyle} onClick={this.handleSubmit.bind(this)}>Save</Button>
-        <Button style={deleteButtonStyle}>Delete</Button>
+        <Button style={deleteButtonStyle} onClick={this.handleDelete.bind(this)}>Delete</Button>
       </Col>
     )
   }
