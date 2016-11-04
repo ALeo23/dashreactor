@@ -22,6 +22,13 @@ class App extends Component {
     }
   }
 
+deletedLesson() {
+  this.setState({
+    selectedLesson: null,
+    selectedLessonQuestions: null,
+    selectedLessonId: null
+  })
+}
 
   handleLessonClick (lesson) {
     let url = 'http://localhost:3011/api/lessons/' + lesson.lessonId;
@@ -126,7 +133,7 @@ class App extends Component {
       <Row className="App">
         <Navbar />
         <div className="container-fluid">
-        <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)}/>
+        <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} />
         {this.renderQuestionList()}
         {this.renderQuestionDetail()}
         {this.renderNewQuestion()}

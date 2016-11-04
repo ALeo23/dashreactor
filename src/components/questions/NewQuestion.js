@@ -28,7 +28,7 @@ class newQuestion extends Component {
     this.setState({
       [changed]: newInputs[changed]
     });
-    console.log(this.state.text)
+    //console.log(this.state.text)
   }
 
   renderQuestion() {

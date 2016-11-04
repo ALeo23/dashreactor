@@ -56,6 +56,20 @@ class LessonTitleList extends Component {
     })
   };
 
+  removeLesson(id) {
+    var that = this
+    let url = 'http://localhost:3011/api/lessons/' + id
+    fetch(url, {
+      method: 'DELETE',
+    }).then(respone => 
+    respone.json().then(json => {
+      return json
+    }))
+    this.setState({
+      lessons: this.state.lessons.filter(lesson => { console.log(lesson); return lesson._id !== id})
+    })
+    this.props.hideContent().bind(this)
+  }
 
   renderAddLesson() {
     const { saveButtonStyle, answerInputStyle } = styles;
@@ -63,7 +77,7 @@ class LessonTitleList extends Component {
       return (
         <form onSubmit={this.addLessonToDB.bind(this)}>
             <input style={answerInputStyle} placeholder="Add lesson..." onChange={this.handleChange.bind(this)}></input>
-            <Button style={saveButtonStyle}>Add</Button>
+            <Button onClick={this.addLessonToDB.bind(this)} style={saveButtonStyle}>Add</Button>
         </form>
       )
     }
@@ -89,6 +103,7 @@ class LessonTitleList extends Component {
                 handleLessonClick={this.props.handleLessonClick.bind(this)}
                 title={lesson.title}
                 lessonId={lesson._id}
+                removeLesson={this.removeLesson.bind(this)}
               />
             )
           })
