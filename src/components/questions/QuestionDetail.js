@@ -44,6 +44,19 @@ class QuestionDetail extends Component {
     // console.log('text', this.props.question.text)
   }
 
+  renderType() {
+    const { QuestionDetailStyle, editableTextStyle } = styles;
+    return (
+      <div>
+        <h2>Type</h2>
+        <select onChange={this.handleChange.bind(this, 'type', undefined)}>
+          <option selected>reading</option>
+          <option>question</option>
+        </select>
+      </div>
+    )
+  }
+
   renderQuestion() {
     const { QuestionDetailStyle, editableTextStyle } = styles;
     return (
@@ -90,6 +103,7 @@ class QuestionDetail extends Component {
       <Col sm={5} smOffset={7} style={QuestionDetailStyle}>
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
+        {this.renderType()}
         {this.renderAnswers()}
         <Button style={saveButtonStyle} onClick={this.handleSubmit.bind(this)}>Save</Button>
         <Button style={deleteButtonStyle}>Delete</Button>
