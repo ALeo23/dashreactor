@@ -43,7 +43,7 @@ class QuestionTitleList extends Component {
             )
           })
         }
-        <i onClick={this.props.handleAddQuestionClick.bind(this, this.props.lessonId)} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i>
+        <span style={{cursor: 'pointer'}}><i onClick={this.props.handleAddQuestionClick.bind(this, this.props.lessonId)} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
       </Col>
     )
   }

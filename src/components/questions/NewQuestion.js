@@ -135,6 +135,8 @@ const styles = {
     opacity: 1,
     border: 0.2,
     textAlign: 'justified',
+    width: '40%',
+    height: '100px'
   },
   addNewChoiceSpanStyle: {
     display:'block',

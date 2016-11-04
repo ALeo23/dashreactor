@@ -85,13 +85,14 @@ class QuestionDetail extends Component {
   }
 
   render() {
-    const { QuestionDetailStyle, saveButtonStyle } = styles;
+    const { QuestionDetailStyle, saveButtonStyle, deleteButtonStyle } = styles;
     return (
       <Col sm={5} smOffset={7} style={QuestionDetailStyle}>
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
         {this.renderAnswers()}
         <Button style={saveButtonStyle} onClick={this.handleSubmit.bind(this)}>Save</Button>
+        <Button style={deleteButtonStyle}>Delete</Button>
       </Col>
     )
   }
@@ -134,14 +135,20 @@ const styles = {
     textAlign: 'justified',
     display: 'inline-block',
     position: 'relative',
-    width: '100%'
+    width: '40%',
+    height: '100px'
   },
-
   saveButtonStyle: {
     color: 'white',
     backgroundColor: coral,
+    marginRight: '20px',
     marginTop: 50,
-    marginLeft: 200
+    marginLeft: 150
+  },
+    deleteButtonStyle: {
+    color: 'white',
+    backgroundColor: coral,
+    marginTop: 50,
   }
 }
 

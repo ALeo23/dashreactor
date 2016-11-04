@@ -8,7 +8,8 @@ class LessonTitleList extends Component {
     super(props);
     this.state = {
       lessons: [],
-      newLesson: ''
+      newLesson: '',
+      showInput: false
     }
     this.getLessonTitles();
   }
@@ -49,12 +50,33 @@ class LessonTitleList extends Component {
     .then(response => response.json())
     .then(function(response) {
       that.state.lessons.push(response)
-      that.setState({lessons: that.state.lessons});
+      that.setState({
+        lessons: that.state.lessons,
+        showInput: !that.state.showInput});
     })
   };
 
+
+  renderAddLesson() {
+    const { saveButtonStyle, answerInputStyle } = styles;
+    if (this.state.showInput) {
+      return (
+        <form onSubmit={this.addLessonToDB.bind(this)}>
+            <input style={answerInputStyle} placeholder="Add lesson..." onChange={this.handleChange.bind(this)}></input>
+            <Button style={saveButtonStyle}>Add</Button>
+        </form>
+      )
+    }
+  }
+
+  handleInputChange() {
+    this.setState({
+      showInput: !this.state.showInput
+    })
+  }
+
   render () {
-    const { LessonTitleListStyle, fontAwesomeStyle } = styles;
+    const { LessonTitleListStyle, saveButtonStyle, fontAwesomeStyle, addLesson } = styles;
     return (
       <Col sm={3} style={LessonTitleListStyle}>
         {
@@ -71,10 +93,8 @@ class LessonTitleList extends Component {
             )
           })
         }
-        <form onSubmit={this.addLessonToDB.bind(this)}>
-          <input placeholder="Add lesson..." onChange={this.handleChange.bind(this)}></input>
-          <button><i className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle}></i></button>
-        </form>
+        {this.renderAddLesson()}
+        <span style={{cursor: 'pointer'}}><i onClick={this.handleInputChange.bind(this)} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
       </Col>
     )
   }
@@ -102,6 +122,16 @@ const styles = {
     marginTop: 50,
     // textAlign: 'left',
     fontSize: 40,
+  },
+  saveButtonStyle: {
+    color: 'white',
+    backgroundColor: 'rgb(250, 132, 138)',
+    marginBottom: '5px'
+  },
+  answerInputStyle: {
+    border: 'none',
+    display: 'inline',
+    color: '#7A7886'
   },
 
 }
