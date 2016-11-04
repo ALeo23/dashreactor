@@ -48,7 +48,7 @@ class App extends Component {
   }
 
 //enables appearance of question-creation form (NewQuestion.js)
-  handleAddQuestionClick (lesson) {
+  handleAddQuestionClick () {
     this.setState({
       creatingQuestion: true,
       selectedQuestion: null
@@ -56,14 +56,33 @@ class App extends Component {
   }
 
 //at the moment this just clears the NewQuestion form without saving.
-  handleSaveNewQuestionClick () {
-    this.setState({
-      creatingQuestion: false});
+  handleSaveNewQuestionClick (text, choices, type) {
+    var length = this.state.selectedLessonQuestions.length + 1;
+    var id = this.state.selectedLessonId;
+    console.log('text', text)
+    console.log('choices', choices)
+    console.log('type', type)
+    console.log(length)
+    fetch('http://localhost:3011/api/content/' + id, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        "text": text,
+        "choices": choices,
+        "type": type,
+        "order": length
+      })
+    }).then(response => response.json());
   }
 
   renderNewQuestion() {
     if (this.state.creatingQuestion) {
-      return <NewQuestion handleSaveNewQuestionClick={this.handleSaveNewQuestionClick.bind(this)}/>
+      return <NewQuestion
+        handleSaveNewQuestionClick={this.handleSaveNewQuestionClick.bind(this)}
+        />
     }
   }
 
@@ -72,7 +91,7 @@ class App extends Component {
     if (this.state.selectedLesson) {
       return (
         <QuestionTitleList
-          title={this.state.selectedLessonTitle}
+          lessonId={this.state.selectedLessonId}
           lessonContent={this.state.selectedLessonQuestions}
           selectedQuestion={this.state.selectedQuestion}
           handleQuestionClick={this.handleQuestionClick.bind(this)}

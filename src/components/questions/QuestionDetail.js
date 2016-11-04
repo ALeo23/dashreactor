@@ -13,15 +13,35 @@ class QuestionDetail extends Component {
 
   handleChange(changed, index, event) {
     var newInputs = this.props.question;
-    newInputs[changed][index] = event.target.value;
+    if(index !== undefined){
+      newInputs[changed][index] = event.target.value;
+    } else {
+      newInputs[changed] = event.target.value;
+    }
+
     this.setState({
       inputs: newInputs
     });
   }
 
   handleSubmit() {
-    console.log('choices', this.props.question.choices);
-    console.log('text', this.props.question.text)
+    let id = this.props.question._id;
+    let text = this.props.question.text;
+    let choices = this.props.question.choices;
+    fetch('http://localhost:3011/api/content/' + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        "text": text,
+        "choices": choices
+      })
+    }).then(response => response.json());
+    // console.log(this.props.question)
+    // console.log('choices', this.props.question.choices);
+    // console.log('text', this.props.question.text)
   }
 
   renderQuestion() {
@@ -29,7 +49,7 @@ class QuestionDetail extends Component {
     return (
       <div>
         <h2>Question</h2>
-        <textArea style = { editableTextStyle } value={this.props.question.text} onChange={this.handleChange.bind(this, 'text')}/>
+        <textArea style = { editableTextStyle } value={this.props.question.text} onChange={this.handleChange.bind(this, 'text', undefined)}/>
       </div>
     )
   }
@@ -58,7 +78,7 @@ class QuestionDetail extends Component {
 
   //adds another text input for answer choices, up to 5 total
   addChoice() {
-    console.log('work')
+    //console.log('work')
     let choices = this.state.inputs.choices;
     choices.push("");
     this.setState({inputs: choices});

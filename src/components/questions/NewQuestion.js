@@ -5,15 +5,30 @@ class newQuestion extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      inputs: []
+      choices: [],
+      text: '',
+      type: 'reading'
     }
   }
 
   //adds another text input for answer choices, up to 5 total
   addChoice() {
-    let choices = this.state.inputs;
+    let choices = this.state.choices;
     choices.push("");
-    this.setState({inputs: choices});
+    this.setState({choices: choices});
+  }
+
+  handleChange(changed, index, event) {
+    var newInputs = this.state;
+    if(index !== undefined){
+      newInputs[changed][index] = event.target.value;
+    } else {
+      newInputs[changed] = event.target.value;
+    }
+    this.setState({
+      [changed]: newInputs[changed]
+    });
+    console.log(this.state.text)
   }
 
   renderQuestion() {
@@ -21,7 +36,20 @@ class newQuestion extends Component {
     return (
       <div>
         <h2>Question</h2>
-        <textArea style = { editableTextStyle } placeholder="Write your question here..." />
+        <textArea style = { editableTextStyle } placeholder="Write your question here..." onChange={this.handleChange.bind(this, 'text', undefined)} />
+      </div>
+    )
+  }
+
+  renderType() {
+    const { QuestionDetailStyle, editableTextStyle } = styles;
+    return (
+      <div>
+        <h2>Type</h2>
+        <select onChange={this.handleChange.bind(this, 'type', undefined)}>
+          <option selected>reading</option>
+          <option>question</option>
+        </select>
       </div>
     )
   }
@@ -29,11 +57,17 @@ class newQuestion extends Component {
 
   renderAnswers() {
     const { answerInputStyle, fontAwesomeStyle, addNewChoiceSpanStyle } = styles;
-
+    if (this.state.type === 'question') {
       return (
         <div>
           <h2>Answers</h2>
-          <input style={answerInputStyle} placeholder="Enter choice" />
+          {this.state.choices.map((choiceInput, index) => {
+              return (
+                <div>
+                  <input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices', index)}/>
+                </div>
+              )
+          })}
           <span style={addNewChoiceSpanStyle}>
 
             <i className="fa fa-plus-circle"
@@ -48,6 +82,7 @@ class newQuestion extends Component {
         </div>
       )
     }
+  }
 
 
 
@@ -57,8 +92,9 @@ class newQuestion extends Component {
       <Col sm={5} smOffset={7} style={QuestionDetailStyle}>
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
+        {this.renderType()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this)}>Save</Button>
+        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this, this.state.text, this.state.choices, this.state.type)}>Save</Button>
       </Col>
     )
   }
@@ -74,12 +110,12 @@ const styles = {
     position: 'fixed',
     paddingTop: 90,
     width: '100%',
-    height: 40,
     textWrap: true,
     paddingRight: 0,
     paddingLeft:40,
     fontFamily: 'Lato',
     zIndex: -1,
+    overflowY: 'auto'
   },
 
   fontAwesomeStyle: {
