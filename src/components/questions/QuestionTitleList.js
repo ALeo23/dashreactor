@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import LessonDummyData from './LessonDummyData';
-import QuestionTitle from './QuestionTitle';
+import QuestionTitle from '../questions/QuestionTitle';
 import { Col } from 'react-bootstrap';
 
 class QuestionTitleList extends Component {
@@ -21,6 +21,11 @@ class QuestionTitleList extends Component {
         {
           this.props.lessonContent.map(question => {
             let isSelectedQuestion;
+            if (question.text.length >= 60) {
+              question.abbrev = question.text.substring(0, 57) + '...';
+            } else {
+              question.abbrev = question.text;
+            }
 
             if (this.props.selectedQuestion) {
               isSelectedQuestion = this.props.selectedQuestion.text === question.text
@@ -30,7 +35,7 @@ class QuestionTitleList extends Component {
 
             return (
               <QuestionTitle
-                title={question.text}
+                title={question.abbrev}
                 questionContent={question}
                 isSelectedQuestion={isSelectedQuestion}
                 handleQuestionClick={this.props.handleQuestionClick.bind(this)}
@@ -38,7 +43,7 @@ class QuestionTitleList extends Component {
             )
           })
         }
-        <i onClick={this.props.handleAddQuestionClick} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i>
+        <span style={{cursor: 'pointer'}}><i onClick={this.props.handleAddQuestionClick.bind(this, this.props.lessonId)} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
       </Col>
     )
   }
@@ -61,6 +66,7 @@ const styles = {
     zIndex: -1,
     fontSize: 18,
     boxShadow: '2px 0px 5px -1px rgba(0,0,0,0.2)',
+    overflowY: 'auto'
   },
 
   fontAwesomeStyle: {

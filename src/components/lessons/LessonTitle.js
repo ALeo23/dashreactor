@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import QuestionTitleList from './QuestionTitleList';
+import QuestionTitleList from '../questions/QuestionTitleList';
 
 
 class LessonTitle extends Component {
@@ -17,7 +17,7 @@ class LessonTitle extends Component {
 
     return (
       <div style={titleStyle} onClick={this.props.handleLessonClick.bind(this, this.props)}>
-        <p>{this.props.title}</p>
+        <p>{ this.props.title }</p>
       </div>
     );
   }
