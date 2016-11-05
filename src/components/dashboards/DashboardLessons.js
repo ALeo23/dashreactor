@@ -5,6 +5,14 @@ import QuestionTitleList from '../questions/QuestionTitleList';
 import QuestionDetail from '../questions/QuestionDetail';
 import NewQuestion from '../questions/NewQuestion';
 import { Button, Col, Row } from 'react-bootstrap';
+import AuthService from '../utils/AuthService';
+
+var options = {
+  closable: false
+};
+
+
+const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com', options);
 
 
 class App extends Component {
@@ -166,17 +174,21 @@ class App extends Component {
   }
 
   render() {
-    return (
-      <Row className="App">
-        <Navbar />
-        <div className="container-fluid">
-        <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} />
-        {this.renderQuestionList()}
-        {this.renderQuestionDetail()}
-        {this.renderNewQuestion()}
-        </div>
-      </Row>
-    );
+    if (auth.loggedIn()) {
+      return (
+        <Row className="App">
+          <Navbar />
+          <div className="container-fluid">
+          <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} />
+          {this.renderQuestionList()}
+          {this.renderQuestionDetail()}
+          {this.renderNewQuestion()}
+          </div>
+        </Row>
+      );
+    } else {
+      return null;
+    }
   }
 }
 
