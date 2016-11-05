@@ -9,19 +9,9 @@ import Login from './components/login/login.js';
 
 const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com');
 
-// validate authentication for private routes
-const requireAuth = (nextState, replace) => {
-  if (!auth.loggedIn()) {
-    replace({pathname: '/login'})
-  }
-}
-
-
 ReactDOM.render((
   <Router history={browserHistory}>
-    <Route path="/" component={DashboardLessons} onEnter={requireAuth}>
-    </Route>
-    <Route path="/login" component={Login} auth={auth}>
+    <Route path="/" component={DashboardLessons} onEnter={auth.login.bind(this)}>
     </Route>
   </Router>
 ), document.getElementById('app'))
