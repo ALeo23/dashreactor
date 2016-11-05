@@ -22,13 +22,22 @@ class App extends Component {
     }
   }
 
-deletedLesson() {
-  this.setState({
-    selectedLesson: null,
-    selectedLessonQuestions: null,
-    selectedLessonId: null
-  })
-}
+  deletedLesson() {
+    this.setState({
+      selectedLesson: null,
+      selectedLessonQuestions: null,
+      selectedLessonId: null,
+      selectedQuestion: null
+    })
+  }
+
+  deletedQuestion(id) {
+    var newQ = this.state.selectedLessonQuestions.filter(question => question._id !== id)
+    this.setState({
+      selectedQuestion: null,
+      selectedLessonQuestions: newQ
+    })
+  }
 
   handleLessonClick (lesson) {
     let url = 'http://localhost:3011/api/lessons/' + lesson.lessonId;
@@ -41,17 +50,19 @@ deletedLesson() {
         this.setState({
           selectedLesson: lesson,
           selectedLessonQuestions: data.lessonContent,
-          selectedLessonId: lesson.lessonId
+          selectedLessonId: lesson.lessonId,
+          selectedQuestion: null,
+          creatingQuestion: false
         });
       });
   }
 
 
   handleQuestionClick (question) {
-      this.setState({
-        selectedQuestion: question,
-        creatingQuestion: null
-      });
+    this.setState({
+      selectedQuestion: question,
+      creatingQuestion: null
+    });
   }
 
 //enables appearance of question-creation form (NewQuestion.js)
@@ -63,7 +74,7 @@ deletedLesson() {
   }
 
 //at the moment this just clears the NewQuestion form without saving.
-  handleSaveNewQuestionClick (text, choices, type) {
+  handleSaveNewQuestionClick (text, choices, type, answer) {
     var length = this.state.selectedLessonQuestions.length + 1;
     var id = this.state.selectedLessonId;
     console.log('text', text)
@@ -80,9 +91,17 @@ deletedLesson() {
         "text": text,
         "choices": choices,
         "type": type,
-        "order": length
+        "order": length,
+        "answer": answer
       })
-    }).then(response => response.json());
+    })
+    .then(response => response.json())
+    .then(response => {
+      this.state.selectedLessonQuestions.push(response)
+      this.setState({
+        creatingQuestion: null
+      });
+    })
   }
 
   renderNewQuestion() {
@@ -113,20 +132,13 @@ deletedLesson() {
     if (this.state.selectedQuestion) {
       return (
         <QuestionDetail
-          // title={this.state.selectedLessonTitle}
-          question={this.state.selectedQuestion}
+          originalQ = {this.state.selectedQuestion}
+          question={JSON.parse(JSON.stringify(this.state.selectedQuestion))}
+          deletedQuestion={this.deletedQuestion.bind(this)}
         />
       )
     }
   }
-
-  // renderEditLesson() {
-  //   if (this.state.editLesson) {
-  //     <EditLesson
-  //       lesson={this.state.lesson}
-  //     />
-  //   }
-  // }
 
   render() {
     return (

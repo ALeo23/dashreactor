@@ -28,6 +28,8 @@ class QuestionDetail extends Component {
     let id = this.props.question._id;
     let text = this.props.question.text;
     let choices = this.props.question.choices;
+    let type = this.props.question.type
+    let answer = this.props.question.answer
     fetch('http://localhost:3011/api/content/' + id, {
       method: 'PUT',
       headers: {
@@ -36,12 +38,49 @@ class QuestionDetail extends Component {
       },
       body: JSON.stringify({
         "text": text,
-        "choices": choices
+        "choices": choices,
+        "type": type,
+        "answer": answer
       })
-    }).then(response => response.json());
-    // console.log(this.props.question)
-    // console.log('choices', this.props.question.choices);
-    // console.log('text', this.props.question.text)
+    })
+    .then(response => response.json());
+    // .then(response => {
+
+    // })
+  }
+
+  handleAnswer(event) {
+    var newInputs = this.props.question
+    newInputs.answer = event.target.name
+    this.setState({
+      inputs: newInputs
+    });
+  }
+
+  handleDelete() {
+    let id = this.props.question._id;
+    fetch('http://localhost:3011/api/content/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json());
+    this.props.deletedQuestion(this.props.question._id);
+  }
+
+  renderType() {
+    const { QuestionDetailStyle, editableTextStyle } = styles;
+    return (
+      <div>
+        <h2>Type</h2>
+        <select value={this.props.question.type} onChange={this.handleChange.bind(this, 'type', undefined)}>
+          <option>reading</option>
+          <option>question</option>
+        </select>
+      </div>
+    )
   }
 
   renderQuestion() {
@@ -63,9 +102,10 @@ class QuestionDetail extends Component {
         <div>
           <h2>Answers</h2>
             {this.props.question.choices.map((choiceInput, index) => {
+              var checked = index == this.props.question.answer ? "checked" : ""
               return (
                 <div>
-                  <input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices', index)}/>
+                  <input name={index} checked={checked} type="checkbox" onChange={this.handleAnswer.bind(this)}></input><input style={answerInputStyle} placeholder="..." value={choiceInput} onChange={this.handleChange.bind(this, 'choices', index)}/>
                 </div>
               )
             })}
@@ -90,9 +130,10 @@ class QuestionDetail extends Component {
       <Col sm={5} smOffset={7} style={QuestionDetailStyle}>
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
+        {this.renderType()}
         {this.renderAnswers()}
         <Button style={saveButtonStyle} onClick={this.handleSubmit.bind(this)}>Save</Button>
-        <Button style={deleteButtonStyle}>Delete</Button>
+        <Button style={deleteButtonStyle} onClick={this.handleDelete.bind(this)}>Delete</Button>
       </Col>
     )
   }

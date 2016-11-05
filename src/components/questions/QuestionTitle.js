@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 class QuestionTitle extends Component {
   constructor(props) {
     super(props);
-
   }
 
   render () {
