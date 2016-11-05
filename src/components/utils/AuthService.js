@@ -5,7 +5,13 @@ import Auth0Lock from 'auth0-lock'
 export default class AuthService {
   constructor(clientId, domain) {
     // Configure Auth0
-    this.lock = new Auth0Lock(clientId, domain, {})
+    this.lock = new Auth0Lock(clientId, domain, {
+      autoclose: true,
+      auth: {
+        redirectUrl: 'http://localhost:3000',
+        responseType: 'token'
+      }
+    });
     // Add callback for lock `authenticated` event
     this.lock.on('authenticated', this._doAuthentication.bind(this))
     // binds login functions to keep this context
@@ -19,7 +25,14 @@ export default class AuthService {
 
   login() {
     // Call the show method to display the widget.
-    this.lock.show()
+    //this binding will need to be captured for later use because of setTimeout
+    var closure = this;
+    //setTimeout is needed to wait for token to be return asynchronously
+    setTimeout(function() {
+      if (!closure.loggedIn()) {
+        closure.lock.show();
+      }
+    }, 100);
   }
 
   loggedIn(){
