@@ -132,20 +132,13 @@ class App extends Component {
     if (this.state.selectedQuestion) {
       return (
         <QuestionDetail
-          question={this.state.selectedQuestion}
+          originalQ = {this.state.selectedQuestion}
+          question={JSON.parse(JSON.stringify(this.state.selectedQuestion))}
           deletedQuestion={this.deletedQuestion.bind(this)}
         />
       )
     }
   }
-
-  // renderEditLesson() {
-  //   if (this.state.editLesson) {
-  //     <EditLesson
-  //       lesson={this.state.lesson}
-  //     />
-  //   }
-  // }
 
   render() {
     return (

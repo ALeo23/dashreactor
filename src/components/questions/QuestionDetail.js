@@ -42,10 +42,11 @@ class QuestionDetail extends Component {
         "type": type,
         "answer": answer
       })
-    }).then(response => response.json());
-    // console.log(this.props.question)
-    // console.log('choices', this.props.question.choices);
-    // console.log('text', this.props.question.text)
+    })
+    .then(response => response.json());
+    // .then(response => {
+
+    // })
   }
 
   handleAnswer(event) {
