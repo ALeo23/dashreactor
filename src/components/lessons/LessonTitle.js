@@ -11,16 +11,16 @@ class LessonTitle extends Component {
 
     /*sets the style to be either selected+default or default style alone, depending on the selectedLesson prop in app.js's state.*/
 
-    const { defaultStyle, selectedStyle, squeezeTitles } = styles;
+    const { defaultStyle, selectedStyle, titleStyle, deleteStyle, hideStyle} = styles;
 
-    let titleStyle = this.props.isSelectedLesson ? {...defaultStyle, ...selectedStyle} : defaultStyle
-
+    let divStyle = this.props.isSelectedLesson ? {...defaultStyle, ...selectedStyle} : defaultStyle
+    let show = this.props.isSelectedLesson ? deleteStyle : hideStyle
     return (
-      <div style={titleStyle}>
-        <div onClick={this.props.handleLessonClick.bind(this, this.props)}>
+      <div style={divStyle}>
+        <div style={titleStyle} onClick={this.props.handleLessonClick.bind(this, this.props)}>
           { this.props.title }
         </div>
-        <span onClick={this.props.removeLesson.bind(this, this.props.lessonId)}>Delete...</span>
+        <span style={show} onClick={this.props.removeLesson.bind(this, this.props.lessonId)}>x</span>
       </div>
     );
   }
@@ -41,7 +41,7 @@ const styles = {
     backgroundColor: 'white',
     position: 'relative',
     display: 'block',
-    height: 60,
+    height: 40,
     width: '100%',
     paddingLeft: 10,
     fontFamily: 'Lato',
@@ -52,6 +52,20 @@ const styles = {
     backgroundColor: coral,
     color: 'white',
   },
+  titleStyle: {
+    position: "relative",
+    display: "inline-block",
+    width: "80%",
+    height: "100%"
+  },
+  deleteStyle: {
+    position: "relative",
+    float: "right",
+    marginRight: "10%"
+  },
+  hideStyle: {
+    visibility: "hidden"
+  }
 
 }
 

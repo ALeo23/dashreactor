@@ -24,31 +24,6 @@ class QuestionDetail extends Component {
     });
   }
 
-  handleSubmit() {
-    let id = this.props.question._id;
-    let text = this.props.question.text;
-    let choices = this.props.question.choices;
-    let type = this.props.question.type
-    let answer = this.props.question.answer
-    fetch('http://localhost:3011/api/content/' + id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        "text": text,
-        "choices": choices,
-        "type": type,
-        "answer": answer
-      })
-    })
-    .then(response => response.json());
-    // .then(response => {
-
-    // })
-  }
-
   handleAnswer(event) {
     var newInputs = this.props.question
     newInputs.answer = event.target.name
@@ -132,7 +107,7 @@ class QuestionDetail extends Component {
         {this.renderQuestion()}
         {this.renderType()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle} onClick={this.handleSubmit.bind(this)}>Save</Button>
+        <Button style={saveButtonStyle} onClick={this.props.handleSubmit.bind(this, this.props.question._id, this.props.question.text, this.props.question.choices, this.props.question.type, this.props.question.answer)}>Save</Button>
         <Button style={deleteButtonStyle} onClick={this.handleDelete.bind(this)}>Delete</Button>
       </Col>
     )
