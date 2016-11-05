@@ -22,13 +22,22 @@ class App extends Component {
     }
   }
 
-deletedLesson() {
-  this.setState({
-    selectedLesson: null,
-    selectedLessonQuestions: null,
-    selectedLessonId: null
-  })
-}
+  deletedLesson() {
+    this.setState({
+      selectedLesson: null,
+      selectedLessonQuestions: null,
+      selectedLessonId: null,
+      selectedQuestion: null
+    })
+  }
+
+  deletedQuestion(id) {
+    var newQ = this.state.selectedLessonQuestions.filter(question => question._id !== id)
+    this.setState({
+      selectedQuestion: null,
+      selectedLessonQuestions: newQ
+    })
+  }
 
   handleLessonClick (lesson) {
     let url = 'http://localhost:3011/api/lessons/' + lesson.lessonId;
@@ -48,10 +57,10 @@ deletedLesson() {
 
 
   handleQuestionClick (question) {
-      this.setState({
-        selectedQuestion: question,
-        creatingQuestion: null
-      });
+    this.setState({
+      selectedQuestion: question,
+      creatingQuestion: null
+    });
   }
 
 //enables appearance of question-creation form (NewQuestion.js)
@@ -83,7 +92,14 @@ deletedLesson() {
         "order": length,
         "answer": answer
       })
-    }).then(response => response.json());
+    })
+    .then(response => response.json())
+    .then(response => {
+      this.state.selectedLessonQuestions.push(response)
+      this.setState({
+        creatingQuestion: null
+      });
+    })
   }
 
   renderNewQuestion() {
@@ -114,8 +130,8 @@ deletedLesson() {
     if (this.state.selectedQuestion) {
       return (
         <QuestionDetail
-          // title={this.state.selectedLessonTitle}
           question={this.state.selectedQuestion}
+          deletedQuestion={this.deletedQuestion.bind(this)}
         />
       )
     }
