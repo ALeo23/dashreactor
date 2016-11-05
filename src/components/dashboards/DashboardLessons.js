@@ -50,7 +50,9 @@ class App extends Component {
         this.setState({
           selectedLesson: lesson,
           selectedLessonQuestions: data.lessonContent,
-          selectedLessonId: lesson.lessonId
+          selectedLessonId: lesson.lessonId,
+          selectedQuestion: null,
+          creatingQuestion: false
         });
       });
   }
