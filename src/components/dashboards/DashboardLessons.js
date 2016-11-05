@@ -104,6 +104,31 @@ class App extends Component {
     })
   }
 
+  handleSubmit(id, text, choices, type, answer) {
+    fetch('http://localhost:3011/api/content/' + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        "text": text,
+        "choices": choices,
+        "type": type,
+        "answer": answer
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      var selected = this.state.selectedQuestion;
+      selected.text = text;
+      selected.choices = choices;
+      selected.type = type;
+      selected.answer = answer;
+      this.setState()
+    })
+  }
+
   renderNewQuestion() {
     if (this.state.creatingQuestion) {
       return <NewQuestion
@@ -132,7 +157,7 @@ class App extends Component {
     if (this.state.selectedQuestion) {
       return (
         <QuestionDetail
-          originalQ = {this.state.selectedQuestion}
+          handleSubmit = {this.handleSubmit.bind(this)}
           question={JSON.parse(JSON.stringify(this.state.selectedQuestion))}
           deletedQuestion={this.deletedQuestion.bind(this)}
         />
