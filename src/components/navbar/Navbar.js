@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Col } from 'react-bootstrap';
+import AuthService from '../utils/AuthService';
 
+const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com');
 
 class Navbar extends Component {
   constructor(props) {
@@ -22,7 +24,7 @@ class Navbar extends Component {
         <br />
 
       {/*this 'users' option is not currently implemented - app is hard coded to open up lessons only.*/}
-        <i className="fa fa-user fa-2x" aria-hidden="true" style={menuItemStyle}></i>
+        <i className="fa fa-sign-out fa-2x" aria-hidden="true" style={menuItemStyle} onClick={auth.logout.bind(auth)}></i>
       </Col>
     );
   }

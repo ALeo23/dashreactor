@@ -7,12 +7,8 @@ import NewQuestion from '../questions/NewQuestion';
 import { Button, Col, Row } from 'react-bootstrap';
 import AuthService from '../utils/AuthService';
 
-var options = {
-  closable: false
-};
 
-
-const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com', options);
+const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com');
 
 
 class App extends Component {
