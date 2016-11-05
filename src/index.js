@@ -4,7 +4,6 @@ import { Router, Route, browserHistory, IndexRoute, DefaultRoute } from 'react-r
 import DashboardLessons from './components/dashboards/DashboardLessons.js';
 // import './index.css';
 import AuthService from './components/utils/AuthService.js';
-import Login from './components/login/login.js';
 
 
 const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com');
