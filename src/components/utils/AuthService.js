@@ -32,7 +32,7 @@ export default class AuthService {
       if (!closure.loggedIn()) {
         closure.lock.show();
       }
-    }, 100);
+    }, 500);
   }
 
   loggedIn(){
