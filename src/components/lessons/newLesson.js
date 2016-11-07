@@ -27,7 +27,7 @@ class addLesson extends Component {
           <option>Javascript</option>
           <option>Ruby</option>
           <option>Python</option>
-          <option>C#</option>
+          <option>C</option>
           <option>PHP</option>
           <option>Java</option>
         </select>
