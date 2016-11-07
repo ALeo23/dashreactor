@@ -181,6 +181,7 @@ class App extends Component {
   }
 
   addLessonToDB(lesson) {
+    console.log(lesson)
     fetch('http://localhost:3011/api/lessons', {
       method: 'POST',
       headers: {
