@@ -26,11 +26,7 @@ class LessonTitle extends Component {
   }
 
   render () {
-    return (
-      <div>
-        {this.renderTitles()}
-      </div>
-    )
+    return this.renderTitles()
   }
 }
 
@@ -41,11 +37,9 @@ const styles = {
     backgroundColor: 'white',
     position: 'relative',
     display: 'block',
-    height: 40,
     width: '100%',
     paddingLeft: 10,
     fontFamily: 'Lato',
-    paddingBottom: 15,
     cursor: 'pointer',
   },
   selectedStyle: {
@@ -56,7 +50,9 @@ const styles = {
     position: "relative",
     display: "inline-block",
     width: "80%",
-    height: "100%"
+    height: "100%",
+    paddingBottom: 5,
+    paddingTop: 5,
   },
   deleteStyle: {
     position: "relative",

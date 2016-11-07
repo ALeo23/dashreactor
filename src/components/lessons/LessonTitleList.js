@@ -61,7 +61,7 @@ class LessonTitleList extends Component {
     let url = 'http://localhost:3011/api/lessons/' + id
     fetch(url, {
       method: 'DELETE',
-    }).then(respone => 
+    }).then(respone =>
     respone.json().then(json => {
       return json
     }))
@@ -92,7 +92,7 @@ class LessonTitleList extends Component {
   render () {
     const { LessonTitleListStyle, saveButtonStyle, fontAwesomeStyle, addLesson } = styles;
     return (
-      <Col sm={3} style={LessonTitleListStyle}>
+      <div style={LessonTitleListStyle}>
         {
           this.state.lessons.map(lesson => {
             let isSelectedLesson = lesson._id === this.props.selectedLessonId;
@@ -110,7 +110,7 @@ class LessonTitleList extends Component {
         }
         {this.renderAddLesson()}
         <span style={{cursor: 'pointer'}}><i onClick={this.handleInputChange.bind(this)} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
-      </Col>
+      </div>
     )
   }
 }
@@ -118,24 +118,23 @@ class LessonTitleList extends Component {
 const styles = {
   LessonTitleListStyle: {
     height: '100%',
+    width: '20%',
     fontSize: 20,
     backgroundColor: 'white',
-    position: 'fixed',
+    position: 'relative',
     paddingTop: 100,
     paddingRight: 0,
     paddingLeft:0,
-    marginLeft: 100,
     fontFamily: 'Lato',
-    zIndex: 0,
     boxShadow: '0px 0px 5px -1px rgba(0,0,0,0.2)',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    display: 'inline-block'
   },
   fontAwesomeStyle: {
     color: '#DADCDD',
     display: 'inline',
     marginLeft: 10,
     marginTop: 50,
-    // textAlign: 'left',
     fontSize: 40,
   },
   saveButtonStyle: {

@@ -172,15 +172,15 @@ class App extends Component {
   render() {
     if (auth.loggedIn()) {
       return (
-        <Row className="App">
-          <Navbar />
-          <div className="container-fluid">
-          <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} />
-          {this.renderQuestionList()}
-          {this.renderQuestionDetail()}
-          {this.renderNewQuestion()}
+        <div style={{height: "100%", width: "100%", position: "absolute"}}>
+          <div style={{ minWidth: '700px', height: "100%"}}>
+            <Navbar />
+            <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} />
+            {this.renderQuestionList()}
+            {this.renderQuestionDetail()}
+            {this.renderNewQuestion()}
           </div>
-        </Row>
+        </div>
       );
     } else {
       return null;
