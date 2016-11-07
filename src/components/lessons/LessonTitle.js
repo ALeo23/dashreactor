@@ -11,7 +11,7 @@ class LessonTitle extends Component {
 
     /*sets the style to be either selected+default or default style alone, depending on the selectedLesson prop in app.js's state.*/
 
-    const { defaultStyle, selectedStyle, titleStyle, deleteStyle, hideStyle} = styles;
+    const { defaultStyle, selectedStyle, titleStyle, deleteStyle, hideStyle } = styles;
 
     let divStyle = this.props.isSelectedLesson ? {...defaultStyle, ...selectedStyle} : defaultStyle
     let show = this.props.isSelectedLesson ? deleteStyle : hideStyle
@@ -20,17 +20,13 @@ class LessonTitle extends Component {
         <div style={titleStyle} onClick={this.props.handleLessonClick.bind(this, this.props)}>
           { this.props.title }
         </div>
-        <span style={show} onClick={this.props.removeLesson.bind(this, this.props.lessonId)}>x</span>
+        <span style={show} onClick={this.props.editLesson.bind(this, this.props.lessonId)}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></span>
       </div>
     );
   }
 
   render () {
-    return (
-      <div>
-        {this.renderTitles()}
-      </div>
-    )
+    return this.renderTitles()
   }
 }
 
@@ -41,11 +37,9 @@ const styles = {
     backgroundColor: 'white',
     position: 'relative',
     display: 'block',
-    height: 40,
     width: '100%',
     paddingLeft: 10,
     fontFamily: 'Lato',
-    paddingBottom: 15,
     cursor: 'pointer',
   },
   selectedStyle: {
@@ -56,17 +50,20 @@ const styles = {
     position: "relative",
     display: "inline-block",
     width: "80%",
-    height: "100%"
+    height: "100%",
+    paddingBottom: 5,
+    paddingTop: 5,
   },
   deleteStyle: {
     position: "relative",
     float: "right",
-    marginRight: "10%"
+    display: "inline",
+    marginTop: 5,
+    marginRight: 6
   },
   hideStyle: {
     visibility: "hidden"
   }
-
 }
 
 export default LessonTitle

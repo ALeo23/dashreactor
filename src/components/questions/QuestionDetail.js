@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 class QuestionDetail extends Component {
   constructor(props) {
@@ -102,14 +102,16 @@ class QuestionDetail extends Component {
   render() {
     const { QuestionDetailStyle, saveButtonStyle, deleteButtonStyle } = styles;
     return (
-      <Col sm={5} smOffset={7} style={QuestionDetailStyle}>
+      <div style={QuestionDetailStyle}>
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
         {this.renderType()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle} onClick={this.props.handleSubmit.bind(this, this.props.question._id, this.props.question.text, this.props.question.choices, this.props.question.type, this.props.question.answer)}>Save</Button>
-        <Button style={deleteButtonStyle} onClick={this.handleDelete.bind(this)}>Delete</Button>
-      </Col>
+        <div style={{ float: "right", marginTop: "30px"}}>
+          <Button style={saveButtonStyle} onClick={this.props.handleSubmit.bind(this, this.props.question._id, this.props.question.text, this.props.question.choices, this.props.question.type, this.props.question.answer)}>Save</Button>
+          <Button style={deleteButtonStyle} onClick={this.handleDelete.bind(this)}>Delete</Button>
+        </div>
+      </div>
     )
   }
 }
@@ -122,13 +124,14 @@ const styles = {
     fontSize: 20,
     position: 'relative',
     paddingTop: 90,
-    width: '100%',
+    width: '40%',
     height: 40,
     textWrap: true,
     paddingRight: 0,
     paddingLeft:40,
     fontFamily: 'Lato',
-    zIndex: -1,
+    display: 'inline-block',
+    verticalAlign: 'top'
   },
 
   fontAwesomeStyle: {
@@ -151,20 +154,18 @@ const styles = {
     textAlign: 'justified',
     display: 'inline-block',
     position: 'relative',
-    width: '40%',
-    height: '100px'
+    width: '100%',
+    height: '100px',
+    resize: 'none'
   },
   saveButtonStyle: {
     color: 'white',
     backgroundColor: coral,
-    marginRight: '20px',
-    marginTop: 50,
-    marginLeft: 150
+    marginRight: '10px'
   },
     deleteButtonStyle: {
     color: 'white',
     backgroundColor: coral,
-    marginTop: 50,
   }
 }
 

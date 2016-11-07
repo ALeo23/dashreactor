@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 class newQuestion extends Component {
   constructor (props) {
@@ -97,13 +97,13 @@ class newQuestion extends Component {
   render() {
     const { QuestionDetailStyle, editableTextStyle, saveButtonStyle } = styles;
     return (
-      <Col sm={5} smOffset={7} style={QuestionDetailStyle}>
+      <div style={QuestionDetailStyle}>
         <i style={{color: lightGrey}}>Click elements to edit</i>
         {this.renderQuestion()}
         {this.renderType()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this, this.state.text, this.state.choices, this.state.type, this.state.answer)}>Save</Button>
-      </Col>
+        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this, this.state.text, this.state.choices, this.state.type, this.state.answer)}>Create</Button>
+      </div>
     )
   }
 }
@@ -115,15 +115,16 @@ const styles = {
   QuestionDetailStyle: {
     height: '100%',
     fontSize: 20,
-    position: 'fixed',
+    position: 'relative',
     paddingTop: 90,
-    width: '100%',
+    width: '40%',
     textWrap: true,
     paddingRight: 0,
     paddingLeft:40,
     fontFamily: 'Lato',
-    zIndex: -1,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    display: 'inline-block',
+    verticalAlign: 'top'
   },
 
   fontAwesomeStyle: {
@@ -134,7 +135,7 @@ const styles = {
 
   answerInputStyle: {
     border: 'none',
-    color: '#7A7886'
+    color: '#7A7886',
   },
 
   editableTextStyle: {
@@ -143,8 +144,9 @@ const styles = {
     opacity: 1,
     border: 0.2,
     textAlign: 'justified',
-    width: '40%',
-    height: '100px'
+    width: '100%',
+    height: '100px',
+    resize: 'none'
   },
   addNewChoiceSpanStyle: {
     display:'block',

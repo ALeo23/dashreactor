@@ -17,7 +17,7 @@ class Navbar extends Component {
     const { navbarStyle, menuItemStyle, selectedStyle } = styles;
 
     return (
-      <Col className="Navbar" style={navbarStyle}>
+      <div style={navbarStyle}>
        {/* <h2 className="brand" style={brandStyle}>Dash Reactor</h2>*/}
         <img alt="dashReactorLogo" src='dashReactorLogo.png' style={{marginLeft: 10, marginTop: -90}}/>
         <i className="fa fa-book fa-2x" aria-hidden="true" style={{...menuItemStyle, ...selectedStyle}}></i>
@@ -25,7 +25,7 @@ class Navbar extends Component {
 
       {/*this 'users' option is not currently implemented - app is hard coded to open up lessons only.*/}
         <i className="fa fa-sign-out fa-2x" aria-hidden="true" style={menuItemStyle} onClick={auth.logout.bind(auth)}></i>
-      </Col>
+      </div>
     );
   }
 }
@@ -38,11 +38,12 @@ const coral = '#FA848A'
 const styles = {
   navbarStyle: {
     height: '100%',
-    width: 50,
-    position: 'fixed',
-    paddingLeft: 20,
+    position: 'relative',
+    paddingLeft: 5,
     paddingTop: 100,
     fontFamily: 'Lato',
+    display: 'inline-block',
+    verticalAlign: "top"
   },
 
   menuItemStyle: {

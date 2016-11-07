@@ -23,11 +23,13 @@ const coral = '#FA848A'
 const styles = {
   defaultStyle: {
     width: '100%',
+    display: 'relative',
     backgroundColor: 'white',
-    height: 60,
     paddingLeft: 10,
     fontFamily: 'Lato',
     cursor: 'pointer',
+    paddingBottom: 5,
+    paddingTop: 5,
   },
 
   selectedStyle: {
