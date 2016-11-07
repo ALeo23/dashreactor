@@ -135,7 +135,7 @@ const styles = {
 
   answerInputStyle: {
     border: 'none',
-    color: '#7A7886'
+    color: '#7A7886',
   },
 
   editableTextStyle: {
@@ -145,7 +145,8 @@ const styles = {
     border: 0.2,
     textAlign: 'justified',
     width: '100%',
-    height: '100px'
+    height: '100px',
+    resize: 'none'
   },
   addNewChoiceSpanStyle: {
     display:'block',

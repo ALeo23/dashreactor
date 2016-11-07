@@ -107,8 +107,10 @@ class QuestionDetail extends Component {
         {this.renderQuestion()}
         {this.renderType()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle} onClick={this.props.handleSubmit.bind(this, this.props.question._id, this.props.question.text, this.props.question.choices, this.props.question.type, this.props.question.answer)}>Save</Button>
-        <Button style={deleteButtonStyle} onClick={this.handleDelete.bind(this)}>Delete</Button>
+        <div style={{ float: "right", marginTop: "30px"}}>
+          <Button style={saveButtonStyle} onClick={this.props.handleSubmit.bind(this, this.props.question._id, this.props.question.text, this.props.question.choices, this.props.question.type, this.props.question.answer)}>Save</Button>
+          <Button style={deleteButtonStyle} onClick={this.handleDelete.bind(this)}>Delete</Button>
+        </div>
       </div>
     )
   }
@@ -153,19 +155,17 @@ const styles = {
     display: 'inline-block',
     position: 'relative',
     width: '100%',
-    height: '100px'
+    height: '100px',
+    resize: 'none'
   },
   saveButtonStyle: {
     color: 'white',
     backgroundColor: coral,
-    marginRight: '20px',
-    marginTop: 50,
-    marginLeft: 150
+    marginRight: '10px'
   },
     deleteButtonStyle: {
     color: 'white',
     backgroundColor: coral,
-    marginTop: 50,
   }
 }
 
