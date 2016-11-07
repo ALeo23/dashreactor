@@ -1,65 +1,45 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 
-class editLesson extends Component {
+class addLesson extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      inputs: {}
+      title: '',
+      description: '',
+      type: 'Javascript'
     }
-    console.log(this.props.lesson)
   }
 
   handleChange(changed, event) {
-    var newInputs = this.props.lesson
-    newInputs[changed] = event.target.value;
     this.setState({
-      inputs: newInputs
+      [changed]: event.target.value
     });
   }
 
-  editLessonInDB(event) {
+  addLessonToDB(event) {
     event.preventDefault();
-    fetch('http://localhost:3011/api/lessons/' + this.props.lesson._id, {
-      method: 'PUT',
+    fetch('http://localhost:3011/api/lessons', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({
-        title: this.props.lesson.title,
-        description: this.props.lesson.description,
-        type: this.props.lesson.type
-      })
+      body: JSON.stringify(this.state)
     })
-    .then(response => response)
+    .then(response => response.json())
     .then(function(response) {
       console.log(response)
     })
-  }
-
-  removeLesson(id) {
-    var that = this
-    let url = 'http://localhost:3011/api/lessons/' + id
-    fetch(url, {
-      method: 'DELETE',
-    }).then(respone =>
-    respone.json().then(json => {
-      return json
-    }))
-    this.setState({
-      lessons: this.state.lessons.filter(lesson => { console.log(lesson); return lesson._id !== id})
-    })
-    this.props.hideContent().bind(this)
-  }
+  };
 
   renderType() {
     const { QuestionDetailStyle, editableTextStyle } = styles;
     return (
       <div>
         <h2>Language</h2>
-        <select onChange={this.handleChange.bind(this, 'type')} value={this.props.lesson.type}>
+        <select onChange={this.handleChange.bind(this, 'type')} value={this.state.type}>
           <option>Javascript</option>
           <option>Ruby</option>
           <option>Python</option>
@@ -76,7 +56,7 @@ class editLesson extends Component {
     return (
       <div>
         <h2>Title</h2>
-        <input style = { answerInputStyle } onChange={this.handleChange.bind(this, 'title')} placeholder="..." value={this.props.lesson.title}></input>
+        <input style = { answerInputStyle } onChange={this.handleChange.bind(this, 'title')} placeholder="..." value={this.state.title}></input>
       </div>
     )
   }
@@ -84,12 +64,12 @@ class editLesson extends Component {
 
   renderDescription() {
     const { editableTextStyle } = styles;
-    return (
-      <div>
-        <h2>Description</h2>
-        <textArea style = { editableTextStyle } placeholder="Write your lesson description here..." onChange={this.handleChange.bind(this, 'description')} value={this.props.lesson.description}/>
-      </div>
-    )
+      return (
+        <div>
+          <h2>Description</h2>
+          <textArea style = { editableTextStyle } placeholder="Write your lesson description here..." onChange={this.handleChange.bind(this, 'description')} value={this.state.description}/>
+        </div>
+      )
   }
 
   render() {
@@ -101,8 +81,7 @@ class editLesson extends Component {
         {this.renderDescription()}
         {this.renderType()}
         <div style={{ float: "right", marginTop: "30px"}}>
-          <Button style={saveButtonStyle} onClick={this.editLessonInDB.bind(this)}>Save</Button>
-          <Button style={deleteButtonStyle}>Delete</Button>
+          <Button style={saveButtonStyle} onClick={this.addLessonToDB.bind(this)}>Create</Button>
         </div>
       </div>
     )
@@ -163,4 +142,4 @@ const styles = {
   }
 }
 
-export default editLesson;
+export default addLesson;

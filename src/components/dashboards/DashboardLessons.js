@@ -6,7 +6,8 @@ import QuestionDetail from '../questions/QuestionDetail';
 import NewQuestion from '../questions/NewQuestion';
 import { Button, Col, Row } from 'react-bootstrap';
 import AuthService from '../utils/AuthService';
-import EditLesson from '../lessons/editLesson'
+import EditLesson from '../lessons/editLesson';
+import AddLesson from '../lessons/newLesson'
 
 
 const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com');
@@ -22,6 +23,7 @@ class App extends Component {
       selectedLessonId: null,
       selectedQuestion: null,
       editLesson: false,
+      creatingLesson: false,
       //determines whether 'NewQuestion' is visible.
       creatingQuestion: false
     }
@@ -58,7 +60,8 @@ class App extends Component {
           selectedLessonId: lesson.lessonId,
           selectedQuestion: null,
           creatingQuestion: false,
-          editLesson: false,
+          creatingLesson: false,
+          editLesson: false
         });
       });
   }
@@ -79,12 +82,24 @@ class App extends Component {
     });
   }
 
+  handleEditLessonClick() {
+    this.setState({
+      creatingQuestion: false,
+      selectedQuestion: null,
+      editLesson: this.state.selectedLesson.lesson,
+      selectedLesson: null,
+      creatingLesson: false
+    })
+  }
+
   handleAddLessonClick() {
     this.setState({
       creatingQuestion: false,
       selectedQuestion: null,
-      editLesson: true,
+      creatingLesson: true,
       selectedLesson: null,
+      editLesson: false,
+      selectedLessonId: null
     })
   }
 
@@ -152,9 +167,15 @@ class App extends Component {
     }
   }
 
-  renderNewLesson() {
+  renderLessonDetail() {
     if (this.state.editLesson){
-      return <EditLesson />
+      return <EditLesson lesson={this.state.editLesson}/>
+    }
+  }
+
+  renderNewLesson() {
+    if (this.state.creatingLesson){
+      return <AddLesson lesson={this.state.AddLesson}/>
     }
   }
 
@@ -192,10 +213,11 @@ class App extends Component {
         <div style={{height: "100%", width: "100%", position: "absolute"}}>
           <div style={{ minWidth: '700px', height: "100%"}}>
             <Navbar />
-            <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} addLesson={this.handleAddLessonClick.bind(this)}/>
+            <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} addLesson={this.handleAddLessonClick.bind(this)} editLesson={this.handleEditLessonClick.bind(this)}/>
             {this.renderQuestionList()}
             {this.renderQuestionDetail()}
             {this.renderNewQuestion()}
+            {this.renderLessonDetail()}
             {this.renderNewLesson()}
           </div>
         </div>

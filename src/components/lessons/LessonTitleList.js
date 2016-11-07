@@ -52,12 +52,13 @@ class LessonTitleList extends Component {
                 handleLessonClick={this.props.handleLessonClick.bind(this)}
                 title={lesson.title}
                 lessonId={lesson._id}
-                editLesson={this.handleEdit.bind(this)}
+                lesson={lesson}
+                editLesson={this.props.editLesson}
               />
             )
           })
         }
-        <span style={{cursor: 'pointer'}}><i onClick={this.props.addLesson} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
+        <span style={{cursor: 'pointer'}}><i onClick={this.props.addLesson.bind(this, false)} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
       </div>
     )
   }
