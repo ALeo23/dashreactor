@@ -34,53 +34,8 @@ class LessonTitleList extends Component {
     })
   }
 
-  addLessonToDB(event) {
-    event.preventDefault();
-    var newlesson = this.state.newLesson
-    var lessons = this.state.lessons
-    var that = this
-    fetch('http://localhost:3011/api/lessons', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({"title": newlesson})
-    })
-    .then(response => response.json())
-    .then(function(response) {
-      that.state.lessons.push(response)
-      that.setState({
-          lessons: that.state.lessons,
-        });
-    })
-  };
+  handleEdit(id) {
 
-  removeLesson(id) {
-    var that = this
-    let url = 'http://localhost:3011/api/lessons/' + id
-    fetch(url, {
-      method: 'DELETE',
-    }).then(respone =>
-    respone.json().then(json => {
-      return json
-    }))
-    this.setState({
-      lessons: this.state.lessons.filter(lesson => { console.log(lesson); return lesson._id !== id})
-    })
-    this.props.hideContent().bind(this)
-  }
-
-  renderAddLesson() {
-    const { saveButtonStyle, answerInputStyle } = styles;
-    if (this.state.showInput) {
-      return (
-        <form onSubmit={this.addLessonToDB.bind(this)}>
-            <input style={answerInputStyle} placeholder="Add lesson..." onChange={this.handleChange.bind(this)}></input>
-            <Button onClick={this.addLessonToDB.bind(this)} style={saveButtonStyle}>Add</Button>
-        </form>
-      )
-    }
   }
 
   render () {
@@ -97,12 +52,11 @@ class LessonTitleList extends Component {
                 handleLessonClick={this.props.handleLessonClick.bind(this)}
                 title={lesson.title}
                 lessonId={lesson._id}
-                removeLesson={this.removeLesson.bind(this)}
+                editLesson={this.handleEdit.bind(this)}
               />
             )
           })
         }
-        {this.renderAddLesson()}
         <span style={{cursor: 'pointer'}}><i onClick={this.props.addLesson} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
       </div>
     )

@@ -27,28 +27,27 @@ class editLesson extends Component {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      body: JSON.stringify({
-        "title": '',
-        "description": '',
-        "type": ''
-      })
+      body: JSON.stringify(this.state.inputs)
     })
     .then(response => response.json())
     .then(function(response) {
+      console.log(response)
     })
   };
 
-  handleDelete() {
-    let id = this.props.lesson._id;
-    fetch('http://localhost:3011/api/content/' + id, {
+  removeLesson(id) {
+    var that = this
+    let url = 'http://localhost:3011/api/lessons/' + id
+    fetch(url, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+    }).then(respone =>
+    respone.json().then(json => {
+      return json
+    }))
+    this.setState({
+      lessons: this.state.lessons.filter(lesson => { console.log(lesson); return lesson._id !== id})
     })
-    .then(response => response.json());
-    this.props.deletedQuestion(this.props.lesson._id);
+    this.props.hideContent().bind(this)
   }
 
   renderType() {
@@ -80,7 +79,7 @@ class editLesson extends Component {
 
 
   renderDescription() {
-    const { editableTextStyle, fontAwesomeStyle } = styles;
+    const { editableTextStyle } = styles;
       return (
         <div>
           <h2>Description</h2>
@@ -98,7 +97,7 @@ class editLesson extends Component {
         {this.renderDescription()}
         {this.renderType()}
         <div style={{ float: "right", marginTop: "30px"}}>
-          <Button style={saveButtonStyle}>Save</Button>
+          <Button style={saveButtonStyle} onClick={this.addLessonToDB.bind(this)}>Save</Button>
           <Button style={deleteButtonStyle}>Delete</Button>
         </div>
       </div>
