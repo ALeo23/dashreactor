@@ -24,7 +24,7 @@ class addLesson extends Component {
       <div>
         <h2>Language</h2>
         <select onChange={this.handleChange.bind(this, 'type')} value={this.state.type}>
-          <option>Javascript</option>
+          <option>JavaScript</option>
           <option>Ruby</option>
           <option>Python</option>
           <option>C</option>
