@@ -8,7 +8,7 @@ export default class AuthService {
     this.lock = new Auth0Lock(clientId, domain, {
       autoclose: true,
       auth: {
-        redirectUrl: 'https://dash-reactor.herokuapp.com/',
+        redirectUrl: 'http://localhost:3000',
         responseType: 'token'
       }
     });
