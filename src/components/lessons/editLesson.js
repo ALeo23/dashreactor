@@ -19,39 +19,16 @@ class editLesson extends Component {
     });
   }
 
-  editLessonInDB(event) {
-    event.preventDefault();
-    fetch('http://localhost:3011/api/lessons/' + this.props.lesson._id, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        title: this.props.lesson.title,
-        description: this.props.lesson.description,
-        type: this.props.lesson.type
-      })
-    })
-    .then(response => response)
-    .then(function(response) {
-      console.log(response)
-    })
-  }
-
   removeLesson(id) {
     var that = this
     let url = 'http://localhost:3011/api/lessons/' + id
     fetch(url, {
       method: 'DELETE',
-    }).then(respone =>
-    respone.json().then(json => {
-      return json
-    }))
-    this.setState({
-      lessons: this.state.lessons.filter(lesson => { console.log(lesson); return lesson._id !== id})
     })
-    this.props.hideContent().bind(this)
+    .then(respone => respone)
+    .then(response => {
+      this.props.handleDeleteLesson(id)
+    })
   }
 
   renderType() {
@@ -101,8 +78,8 @@ class editLesson extends Component {
         {this.renderDescription()}
         {this.renderType()}
         <div style={{ float: "right", marginTop: "30px"}}>
-          <Button style={saveButtonStyle} onClick={this.editLessonInDB.bind(this)}>Save</Button>
-          <Button style={deleteButtonStyle}>Delete</Button>
+          <Button style={saveButtonStyle} onClick={this.props.editLessonInDB.bind(this, this.props.lesson._id, this.props.lesson.title, this.props.lesson.description, this.props.lesson.type)}>Save</Button>
+          <Button style={deleteButtonStyle} onClick={this.removeLesson.bind(this, this.props.lesson._id)}>Delete</Button>
         </div>
       </div>
     )

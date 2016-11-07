@@ -8,7 +8,6 @@ class LessonTitleList extends Component {
     super(props);
     this.state = {
       lessons: [],
-      newLesson: '',
       showInput: false
     }
     this.getLessonTitles();
@@ -25,17 +24,8 @@ class LessonTitleList extends Component {
     .then(data => {
       console.log('DATA =>', data)
       this.setState( { 'lessons': data } );
+      this.props.loadingLessons(this.state.lessons)
     })
-  }
-
-  handleChange(event) {
-    this.setState({
-      newLesson: event.target.value,
-    })
-  }
-
-  handleEdit(id) {
-
   }
 
   render () {

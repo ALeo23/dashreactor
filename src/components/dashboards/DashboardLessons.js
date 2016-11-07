@@ -18,6 +18,7 @@ class App extends Component {
     super();
 
     this.state = {
+      lessons: null,
       selectedLesson: null,
       selectedLessonQuestions: null,
       selectedLessonId: null,
@@ -27,6 +28,7 @@ class App extends Component {
       //determines whether 'NewQuestion' is visible.
       creatingQuestion: false
     }
+    console.log("hello", this.state.lessons)
   }
 
   deletedLesson() {
@@ -103,6 +105,7 @@ class App extends Component {
     })
   }
 
+
 //at the moment this just clears the NewQuestion form without saving.
   handleSaveNewQuestionClick (text, choices, type, answer) {
     var length = this.state.selectedLessonQuestions.length + 1;
@@ -133,6 +136,65 @@ class App extends Component {
       });
     })
   }
+
+  editLessonInDB(id, title, description, type) {
+    console.log(description, type)
+    fetch('http://localhost:3011/api/lessons/' + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        type: type
+      })
+    })
+    .then(response => response)
+    .then(response => {
+      var selected = this.state.editLesson
+      console.log(selected)
+      selected.title = title;
+      selected.description = description;
+      selected.type = type;
+      this.setState()
+    })
+  }
+
+  loadingLessons(lessons) {
+    this.setState({
+      lessons: lessons
+    })
+  }
+
+  handleDeleteLesson (id) {
+    this.state.lessons.forEach((question, index) => {
+      if(question._id === id){
+        this.state.lessons.splice(index, 1)
+      }
+    })
+    this.setState({
+      selectedLesson: null,
+      editLesson: false
+    })
+  }
+
+  addLessonToDB(lesson) {
+    fetch('http://localhost:3011/api/lessons', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(lesson)
+    })
+    .then(response => response.json())
+    .then(response => {
+      this.state.lessons.push(response)
+      this.setState()
+    })
+  };
 
   handleSubmit(id, text, choices, type, answer) {
     fetch('http://localhost:3011/api/content/' + id, {
@@ -169,13 +231,13 @@ class App extends Component {
 
   renderLessonDetail() {
     if (this.state.editLesson){
-      return <EditLesson lesson={this.state.editLesson}/>
+      return <EditLesson handleDeleteLesson={this.handleDeleteLesson.bind(this)} lesson={JSON.parse(JSON.stringify(this.state.editLesson))} editLessonInDB={this.editLessonInDB.bind(this)}/>
     }
   }
 
   renderNewLesson() {
     if (this.state.creatingLesson){
-      return <AddLesson lesson={this.state.AddLesson}/>
+      return <AddLesson lesson={this.state.AddLesson} addLessonToDB={this.addLessonToDB.bind(this)}/>
     }
   }
 
@@ -213,7 +275,7 @@ class App extends Component {
         <div style={{height: "100%", width: "100%", position: "absolute"}}>
           <div style={{ minWidth: '700px', height: "100%"}}>
             <Navbar />
-            <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} addLesson={this.handleAddLessonClick.bind(this)} editLesson={this.handleEditLessonClick.bind(this)}/>
+            <LessonTitleList loadingLessons={this.loadingLessons.bind(this)} selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} addLesson={this.handleAddLessonClick.bind(this)} editLesson={this.handleEditLessonClick.bind(this)}/>
             {this.renderQuestionList()}
             {this.renderQuestionDetail()}
             {this.renderNewQuestion()}

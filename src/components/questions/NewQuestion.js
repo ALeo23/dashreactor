@@ -102,7 +102,7 @@ class newQuestion extends Component {
         {this.renderQuestion()}
         {this.renderType()}
         {this.renderAnswers()}
-        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this, this.state.text, this.state.choices, this.state.type, this.state.answer)}>Save</Button>
+        <Button style={saveButtonStyle} onClick={this.props.handleSaveNewQuestionClick.bind(this, this.state.text, this.state.choices, this.state.type, this.state.answer)}>Create</Button>
       </div>
     )
   }

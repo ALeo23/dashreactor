@@ -18,22 +18,6 @@ class addLesson extends Component {
     });
   }
 
-  addLessonToDB(event) {
-    event.preventDefault();
-    fetch('http://localhost:3011/api/lessons', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(this.state)
-    })
-    .then(response => response.json())
-    .then(function(response) {
-      console.log(response)
-    })
-  };
-
   renderType() {
     const { QuestionDetailStyle, editableTextStyle } = styles;
     return (
@@ -81,7 +65,7 @@ class addLesson extends Component {
         {this.renderDescription()}
         {this.renderType()}
         <div style={{ float: "right", marginTop: "30px"}}>
-          <Button style={saveButtonStyle} onClick={this.addLessonToDB.bind(this)}>Create</Button>
+          <Button style={saveButtonStyle} onClick={this.props.addLessonToDB.bind(this, this.state)}>Create</Button>
         </div>
       </div>
     )
