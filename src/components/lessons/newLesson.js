@@ -8,7 +8,7 @@ class addLesson extends Component {
     this.state = {
       title: '',
       description: '',
-      type: 'Javascript'
+      type: 'JavaScript'
     }
   }
 
