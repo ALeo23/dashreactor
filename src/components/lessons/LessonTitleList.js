@@ -51,8 +51,8 @@ class LessonTitleList extends Component {
     .then(function(response) {
       that.state.lessons.push(response)
       that.setState({
-        lessons: that.state.lessons,
-        showInput: !that.state.showInput});
+          lessons: that.state.lessons,
+        });
     })
   };
 
@@ -83,12 +83,6 @@ class LessonTitleList extends Component {
     }
   }
 
-  handleInputChange() {
-    this.setState({
-      showInput: !this.state.showInput
-    })
-  }
-
   render () {
     const { LessonTitleListStyle, saveButtonStyle, fontAwesomeStyle, addLesson } = styles;
     return (
@@ -109,7 +103,7 @@ class LessonTitleList extends Component {
           })
         }
         {this.renderAddLesson()}
-        <span style={{cursor: 'pointer'}}><i onClick={this.handleInputChange.bind(this)} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
+        <span style={{cursor: 'pointer'}}><i onClick={this.props.addLesson} className="fa fa-plus-circle" aria-hidden="true" style={fontAwesomeStyle} ></i></span>
       </div>
     )
   }

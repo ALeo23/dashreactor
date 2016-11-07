@@ -6,6 +6,7 @@ import QuestionDetail from '../questions/QuestionDetail';
 import NewQuestion from '../questions/NewQuestion';
 import { Button, Col, Row } from 'react-bootstrap';
 import AuthService from '../utils/AuthService';
+import EditLesson from '../lessons/editLesson'
 
 
 const auth = new AuthService('4ZP5XvMbVnvvU6hSpNT3togDmRzI7pHH', 'scripty-luke.auth0.com');
@@ -22,7 +23,7 @@ class App extends Component {
       selectedQuestion: null,
       editLesson: false,
       //determines whether 'NewQuestion' is visible.
-      creatingQuestion: false,
+      creatingQuestion: false
     }
   }
 
@@ -56,7 +57,8 @@ class App extends Component {
           selectedLessonQuestions: data.lessonContent,
           selectedLessonId: lesson.lessonId,
           selectedQuestion: null,
-          creatingQuestion: false
+          creatingQuestion: false,
+          editLesson: false,
         });
       });
   }
@@ -75,6 +77,15 @@ class App extends Component {
       creatingQuestion: true,
       selectedQuestion: null
     });
+  }
+
+  handleAddLessonClick() {
+    this.setState({
+      creatingQuestion: false,
+      selectedQuestion: null,
+      editLesson: true,
+      selectedLesson: null,
+    })
   }
 
 //at the moment this just clears the NewQuestion form without saving.
@@ -141,6 +152,12 @@ class App extends Component {
     }
   }
 
+  renderNewLesson() {
+    if (this.state.editLesson){
+      return <EditLesson />
+    }
+  }
+
 
   renderQuestionList () {
     if (this.state.selectedLesson) {
@@ -175,10 +192,11 @@ class App extends Component {
         <div style={{height: "100%", width: "100%", position: "absolute"}}>
           <div style={{ minWidth: '700px', height: "100%"}}>
             <Navbar />
-            <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} />
+            <LessonTitleList selectedLessonId={this.state.selectedLessonId} handleLessonClick={this.handleLessonClick.bind(this)} hideContent={this.deletedLesson.bind(this)} addLesson={this.handleAddLessonClick.bind(this)}/>
             {this.renderQuestionList()}
             {this.renderQuestionDetail()}
             {this.renderNewQuestion()}
+            {this.renderNewLesson()}
           </div>
         </div>
       );
